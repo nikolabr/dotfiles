@@ -47,10 +47,13 @@
 (global-set-key (kbd "C-c y") 'company-yasnippet)
 (yas-global-mode 1)
 
+(require 'cider)
+
 (require 'eglot)
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'clojure-mode-hook 'eglot-ensure)
 
 (require 'direnv)
 (direnv-mode)
