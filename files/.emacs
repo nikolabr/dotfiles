@@ -11,7 +11,7 @@
                          ("gnu" . "https://elpa.gnu.org/packages/")))
 
 (setq package-selected-packages
-      '(paredit which-key adwaita-dark-theme helm helm-xref
+      '(paredit which-key doom-themes helm helm-xref
 		direnv magit company yasnippet yasnippet-snippets helm-c-yasnippet))
 
 ;; Install package if not installed
@@ -24,7 +24,9 @@
 (setq auth-source-save-behavior nil)
 (setq custom-safe-themes t)
 
-(add-hook 'after-init-hook (lambda () (load-theme 'adwaita-dark)))
+(setq doom-themes-enable-bold t
+      doom-themes-enable-italic t)
+(load-theme 'doom-sourcerer)
 
 (require 'paredit)
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
@@ -43,27 +45,11 @@
 
 (helm-mode)
 
-(require 'pdf-tools)
-(pdf-tools-install)
-
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-
-;; Use pdf-tools to open PDF files
-(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-      TeX-source-correlate-start-server t)
-
-;; Update PDF buffers after successful LaTeX runs
-(add-hook 'TeX-after-compilation-finished-functions
-          #'TeX-revert-document-buffer)
-
-
 (require 'yasnippet)
 (global-set-key (kbd "C-c y") 'company-yasnippet)
 (yas-global-mode 1)
 
-(require 'cider)
+;; (require 'cider)
 
 (require 'eglot)
 (add-hook 'c-mode-hook 'eglot-ensure)
@@ -71,8 +57,8 @@
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'clojure-mode-hook 'eglot-ensure)
 
-(require 'direnv)
-(direnv-mode)
+;; (require 'direnv)
+;; (direnv-mode)
 
 (require 'magit)
 
@@ -80,3 +66,7 @@
 (setq company-idle-delay 0.0)
 (setq company-minimum-prefix-length 1)
 (global-company-mode)
+
+(set-frame-font "Iosevka 11" nil t)
+
+(add-hook 'window-setup-hook 'toggle-frame-maximized t)
