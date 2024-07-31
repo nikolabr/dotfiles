@@ -512,6 +512,8 @@
     stlink-gui
     bear
 
+    zoom-us
+
     # Tex
     texlive.combined.scheme-full
 
