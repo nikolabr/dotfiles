@@ -127,8 +127,7 @@
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   networking.firewall.enable = true;
 
@@ -194,13 +193,13 @@
 
   documentation.dev.enable = true;
 
-  # services.mysql.package = pkgs.mariadb;
-  # services.mysql.enable = true;
+  services.mysql.package = pkgs.mariadb;
+  services.mysql.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nikola = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
 
   # List packages installed in system profile. To search, run:
