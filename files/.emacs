@@ -11,7 +11,7 @@
                          ("gnu" . "https://elpa.gnu.org/packages/")))
 
 (setq package-selected-packages
-      '(paredit which-key doom-themes helm helm-xref
+      '(paredit which-key doom-themes helm helm-xref cmake-mode
 		direnv magit company yasnippet yasnippet-snippets helm-c-yasnippet))
 
 ;; Install package if not installed
@@ -51,11 +51,19 @@
 
 ;; (require 'cider)
 
+(require 'cmake-mode)
+
 (require 'eglot)
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'clojure-mode-hook 'eglot-ensure)
+(add-hook 'csharp-mode-hook 'eglot-ensure)
+
+(define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+(define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
+(define-key eglot-mode-map (kbd "C-c h") 'eldoc)
+(define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
 
 ;; (require 'direnv)
 ;; (direnv-mode)
