@@ -78,7 +78,8 @@
   (
    ("M-s l" . consult-line)
    ("M-s L" . consult-line-multi)
-   
+   ("M-g f" . consult-flymake)
+   ("M-g g" . consult-goto-line)
    ("C-c h" . consult-history)
    ("C-x b" . consult-buffer)
    ("C-x r b" . consult-bookmark)
@@ -106,6 +107,12 @@
   :init (global-corfu-mode))
 
 (use-package lsp-mode
+  :custom
+  (gc-cons-threshold (* 100 1024 1024))
+  (read-process-output-max (* 1024 1024))
+  (lsp-idle-delay 0.1)
+  :config
+  (remove-hook 'flymake-diagnostic-functions 'flymake-cc)
   :hook
   (c-mode . lsp)
   (c++-mode . lsp)
