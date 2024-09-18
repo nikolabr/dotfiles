@@ -314,7 +314,7 @@
       # General
       "super + Return" = "alacritty";
       "super + @space" = "rofi -show run";
-      "super + v" = "firefox";
+      "super + v" = "firefox-esr";
       "super + d" = "rofi -show drun";
       "super + Escape" = "pkill -USR1 -x sxhkd";
 
@@ -451,6 +451,19 @@
   };
 
   home.file.".emacs".source = ./files/.emacs;
+
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      ms-vscode.cpptools
+      ms-vscode-remote.remote-containers
+      
+      twxs.cmake
+      ms-vscode.cmake-tools
+      
+      tuttieee.emacs-mcx
+    ];
+  };
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -478,6 +491,7 @@
     p7zip
     zip
     aria2
+    qbittorrent
     time
     unzip
     flashrom
@@ -511,8 +525,10 @@
     stm32cubemx
     stlink-gui
     bear
+    devcontainer
 
     zoom-us
+	iosevka
 
     # Tex
     texlive.combined.scheme-full
@@ -554,7 +570,6 @@
 
     # Lisp
     sbcl
-    lispPackages.cl-ppcre
 
     # Racket
     racket
@@ -587,6 +602,7 @@
     jflap
 
     viber
+    wine
 
     usbutils
 
@@ -650,7 +666,7 @@
   home.sessionVariables = {
     # EDITOR = "emacs";
     GTK_THEME = "Adwaita:dark";
-    BROWSER = "firefox";
+    BROWSER = "firefox-esr";
   };
 
   # Let Home Manager install and manage itself.

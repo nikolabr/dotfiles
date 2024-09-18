@@ -6,20 +6,7 @@
 (desktop-save-mode 1)
 (electric-pair-mode 1)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")))
-
-(setq package-selected-packages
-      '(paredit which-key doom-themes helm helm-xref cmake-mode
-		direnv magit company yasnippet yasnippet-snippets helm-c-yasnippet))
-
-;; Install package if not installed
-(when (cl-find-if-not #'package-installed-p package-selected-packages)
-  (require 'package)
-  (package-initialize)
-  (package-refresh-contents)
-  (mapc #'package-install package-selected-packages))
+(setq package-archives nil)
 
 (setq auth-source-save-behavior nil)
 (setq custom-safe-themes t)
@@ -51,6 +38,21 @@
 
 ;; (require 'cider)
 
+(require 'pdf-tools)
+(pdf-tools-install)
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+;; Use pdf-tools to open PDF files
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-source-correlate-start-server t)
+
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-compilation-finished-functions
+          #'TeX-revert-document-buffer)
+
 (require 'cmake-mode)
 
 (require 'eglot)
@@ -65,8 +67,8 @@
 (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
 
-;; (require 'direnv)
-;; (direnv-mode)
+(require 'direnv)
+(direnv-mode)
 
 (require 'magit)
 
@@ -74,7 +76,3 @@
 (setq company-idle-delay 0.0)
 (setq company-minimum-prefix-length 1)
 (global-company-mode)
-
-(set-frame-font "Iosevka 11" nil t)
-
-(add-hook 'window-setup-hook 'toggle-frame-maximized t)

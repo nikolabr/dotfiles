@@ -159,8 +159,8 @@
    }];
 
   # Configure keymap in X11
-  services.xserver.layout = "si,us";
-  services.xserver.xkbOptions = "grp:ctrls_toggle";
+  services.xserver.xkb.layout = "si,us";
+  services.xserver.xkb.options = "grp:ctrls_toggle";
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -176,13 +176,13 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.config.common.default = "*";
 
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   # virtualisation.virtualbox.host.enable = true;
   # users.extraGroups.vboxusers.members = [ "nikola" ];
 
@@ -199,7 +199,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nikola = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "docker" "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
 
   # List packages installed in system profile. To search, run:

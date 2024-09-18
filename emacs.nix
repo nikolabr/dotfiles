@@ -15,7 +15,9 @@ in
 
       lsp-mode helm-lsp dap-mode
 
-      yasnippet which-key hydra flycheck company avy
+      cmake-mode doom-themes
+
+      yasnippet helm-c-yasnippet yasnippet-snippets which-key hydra flycheck company avy
 
       magit
 
@@ -34,8 +36,6 @@ in
       haskell-mode lsp-haskell
 
       tuareg merlin
-
-      sweeprolog
       
       elm-mode
 
