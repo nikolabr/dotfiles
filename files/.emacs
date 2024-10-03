@@ -1,3 +1,19 @@
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
 (scroll-bar-mode -1)
@@ -5,74 +21,119 @@
 (tool-bar-mode -1)
 (desktop-save-mode 1)
 (electric-pair-mode 1)
+(savehist-mode 1)
+(recentf-mode 1)
 
-(setq package-archives nil)
+(setq auth-source-save-behavior nil)
+(setq custom-safe-themes t)
+(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
 (setq auth-source-save-behavior nil)
 (setq custom-safe-themes t)
 
-(setq doom-themes-enable-bold t
-      doom-themes-enable-italic t)
-(load-theme 'doom-sourcerer)
+(setq enable-recursive-minibuffers t)
+(setq read-extended-command-predicate #'command-completion-default-include-p)
 
-(require 'paredit)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'scheme-mode-hook 'enable-paredit-mode)
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(require 'which-key)
-(which-key-mode)
+(setq tab-always-indent 'complete)
+(setq text-mode-ispell-word-completion nil)
 
-(require 'helm)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x r b") 'helm-bookmarks)
+(setq lexical-binding t)
 
-(helm-autoresize-mode t)
+(setq straight-use-package-by-default t)
 
-(helm-mode)
+(straight-use-package 'use-package)
 
-(require 'yasnippet)
-(global-set-key (kbd "C-c y") 'company-yasnippet)
-(yas-global-mode 1)
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+	doom-themes-enable-italic t)
+  (load-theme 'doom-sourcerer))
 
-;; (require 'cider)
+;; (require 'paredit)
+;; (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+;; (add-hook 'scheme-mode-hook 'enable-paredit-mode)
 
-(require 'pdf-tools)
-(pdf-tools-install)
+(use-package paredit
+  :hook ((lisp-mode . enable-paredit-mode)
+	 (scheme-mode . enable-paredit-mode)))
 
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+(use-package vertico
+  :straight t
+  :init (vertico-mode))
 
-;; Use pdf-tools to open PDF files
-(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-      TeX-source-correlate-start-server t)
+(use-package savehist
+  :straight t
+  :init
+  (savehist-mode))
 
-;; Update PDF buffers after successful LaTeX runs
-(add-hook 'TeX-after-compilation-finished-functions
-          #'TeX-revert-document-buffer)
+(use-package orderless
+  :straight t
+  :custom
+  (completion-styles '(orderless basic partial-completion))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
 
-(require 'cmake-mode)
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+	      ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
 
-(require 'eglot)
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'python-mode-hook 'eglot-ensure)
-(add-hook 'clojure-mode-hook 'eglot-ensure)
-(add-hook 'csharp-mode-hook 'eglot-ensure)
+(use-package consult
+  :bind
+  (
+   ("M-s l" . consult-line)
+   ("M-s L" . consult-line-multi)
+   ("M-g f" . consult-flymake)
+   ("M-g g" . consult-goto-line)
+   ("C-c h" . consult-history)
+   ("C-x b" . consult-buffer)
+   ("C-x r b" . consult-bookmark)
+   ("C-x p b" . consult-project-buffer))
+  
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :config
+  (setq consult-narrow-key "<"))
 
-(define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
-(define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
-(define-key eglot-mode-map (kbd "C-c h") 'eldoc)
-(define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
+(use-package embark
+  :bind (("C-." . embark-act)
+         :map minibuffer-local-map
+         ("C-c C-c" . embark-collect)
+         ("C-c C-e" . embark-export)))
 
-(require 'direnv)
-(direnv-mode)
+(use-package embark-consult
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-(require 'magit)
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  :init (global-corfu-mode))
 
-(require 'company)
-(setq company-idle-delay 0.0)
-(setq company-minimum-prefix-length 1)
-(global-company-mode)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
+
+(use-package auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-source-correlate-start-server t)
+
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer))
+
+(use-package direnv
+  :config
+  (direnv-mode))
+
+(use-package magit)

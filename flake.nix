@@ -47,7 +47,7 @@
       };
       
     in {
-      packages.x86_64-linux.custom-emacs = (import ./emacs.nix { inherit pkgs; });
+      # packages.x86_64-linux.custom-emacs = (import ./emacs.nix { inherit pkgs; });
 
       nixosConfigurations = {
         thinkbook = nixpkgs.lib.nixosSystem {

@@ -447,10 +447,12 @@
     defaultEditor = true;
     client.enable = true;
 
-    package = inputs.self.packages.x86_64-linux.custom-emacs;
+    # package = inputs.self.packages.x86_64-linux.custom-emacs;
+    package = pkgs.emacs-pgtk;
   };
 
   home.file.".emacs".source = ./files/.emacs;
+  home.file.".config/emacs/early-init.el".source = ./files/early-init.el;
 
   programs.vscode = {
     enable = true;
@@ -527,8 +529,7 @@
     bear
     devcontainer
 
-    zoom-us
-	iosevka
+	  iosevka
 
     # Tex
     texlive.combined.scheme-full
@@ -555,17 +556,6 @@
     cargo-generate
 
     # Python
-    # (python3.withPackages(ps:
-    #   with python311Packages; [
-    #     pylatexenc
-    #     python-lsp-server
-    #     flake8
-    #     jedi
-    #     jinja2
-    #     numpy
-    #     scipy
-    #   ]
-    # ))
     nodePackages_latest.pyright
 
     # Lisp
@@ -588,12 +578,6 @@
 
     # Haskell
     haskell-language-server
-
-    # SWI Prolog
-    swiPrologWithGui
-
-    # Java
-    jdt-language-server
 
     # Embedded
     gcc-arm-embedded
@@ -660,7 +644,7 @@
   #
   # or
   #
-  #  /etc/profiles/per-user/nikola/etc/profile.d/hm-session-vars.sh
+  #  /etc/profiles/per-user/nikola/etc/profile.d/hm--vars.sh
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
