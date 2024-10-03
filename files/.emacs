@@ -137,3 +137,5 @@
   (direnv-mode))
 
 (use-package magit)
+(use-package nix-mode)
+(use-package haskell-mode)

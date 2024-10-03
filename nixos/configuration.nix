@@ -215,7 +215,7 @@
     ncdu
     dict
     direnv
-    nixfmt
+    nixfmt-rfc-style
     nil
     screen
     man-pages
