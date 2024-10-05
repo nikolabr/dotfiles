@@ -39,6 +39,14 @@
 (setq text-mode-ispell-word-completion nil)
 
 (setq lexical-binding t)
+
+(let ((path (shell-command-to-string ". ~/.bashrc; echo -n $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path 
+        (append
+         (split-string-and-unquote path ":")
+         exec-path)))
+
 (set-frame-font "Iosevka 11" nil t)
 
 (setq straight-use-package-by-default t)
@@ -104,19 +112,27 @@
 (use-package corfu
   :custom
   (corfu-auto t)
+  (corfu-quit-no-match 'separator)
   :init (global-corfu-mode))
+
+(use-package haskell-mode)
 
 (use-package lsp-mode
   :custom
   (gc-cons-threshold (* 100 1024 1024))
   (read-process-output-max (* 1024 1024))
   (lsp-idle-delay 0.1)
+  (lsp-completion-provider :none)
   :config
   (remove-hook 'flymake-diagnostic-functions 'flymake-cc)
   :hook
   (c-mode . lsp)
   (c++-mode . lsp)
+  (python-mode . lsp)
+  (haskell-mode . lsp)
   :bind-keymap ("C-c l" . lsp-command-map))
+
+(use-package lsp-haskell)
 
 (use-package cmake-mode)
 (use-package magit)
