@@ -92,38 +92,6 @@
     lidSwitch = "suspend";
   };
 
-
-  services.udev.extraRules = ''
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3752", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-
-    # STLink V3SET in Dual CDC mode
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3753", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-
-    # STLink V3SET MINIE
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3754", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-
-    # STLink V3SET 
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374d", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-
-    # STLink V3SET 
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374e", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-        
-    # STLink V3SET in normal mode
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374f", \
-        MODE:="0666", \
-        SYMLINK+="stlinkv3_%n"
-  '';
-
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -183,8 +151,6 @@
   xdg.portal.config.common.default = "*";
 
   virtualisation.docker.enable = true;
-  # virtualisation.virtualbox.host.enable = true;
-  # users.extraGroups.vboxusers.members = [ "nikola" ];
 
   services.dictd = {
     enable = true;
@@ -192,9 +158,6 @@
   };
 
   documentation.dev.enable = true;
-
-  services.mysql.package = pkgs.mariadb;
-  services.mysql.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nikola = {

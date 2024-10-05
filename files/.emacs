@@ -136,6 +136,21 @@
   :config
   (direnv-mode))
 
-(use-package magit)
+(use-package lsp-mode
+  :custom
+  (gc-cons-threshold (* 100 1024 1024))
+  (read-process-output-max (* 1024 1024))
+  (lsp-idle-delay 0.1)
+  :config
+  (remove-hook 'flymake-diagnostic-functions 'flymake-cc)
+  :hook
+  (c-mode . lsp)
+  (c++-mode . lsp)
+  (haskell-mode . lsp)
+  :bind-keymap ("C-c l" . lsp-command-map))
+
 (use-package nix-mode)
 (use-package haskell-mode)
+(use-package lsp-haskell)
+
+(use-package magit)

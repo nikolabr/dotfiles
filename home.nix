@@ -542,6 +542,7 @@
     ))
     
     jetbrains.clion
+    jetbrains.idea-ultimate
 
     # Rust
     (rust-bin.stable.latest.default.override {
@@ -586,6 +587,7 @@
     jflap
 
     viber
+    signal-desktop
     wine
 
     usbutils
