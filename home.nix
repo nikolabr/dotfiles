@@ -541,7 +541,6 @@
       [ octavePackages.audio octavePackages.statistics octavePackages.signal ]
     ))
     
-    jetbrains.clion
     jetbrains.idea-ultimate
 
     # Rust
