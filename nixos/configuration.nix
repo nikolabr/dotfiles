@@ -148,6 +148,10 @@
     screen
     man-pages
     man-pages-posix
+
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+    gnome.gnome-settings-daemon
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

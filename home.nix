@@ -55,168 +55,6 @@
       opacity = 0.85;
     };
   };
-  
-  services.polybar.enable = false;
-  services.polybar.package = pkgs.polybar.override { pulseSupport = true; };
-  services.polybar.script = "polybar top &";
-  services.polybar.settings = {
-    "colors" = {
-      background = "#D924292e";
-      background-alt = "#373B41";
-      foreground = "#C5C8C6";
-      primary = "#81a2be";
-      Secondary = "#8ABEB7";
-      alert = "#A54242";
-      disabled = "#707880";
-    };
-
-    "bar/top" = {
-      width = "100%";
-      height = "20pt";
-
-      background = "\${colors.background}";
-      foreground = "\${colors.foreground}";
-
-      line.size = "3pt";
-
-      padding.left = 0;
-      padding.right = 1;
-
-      module.margin = 1;
-
-      radius = 5;
-      border.size = 5;
-
-      separator = "|";
-      separator-foreground = "\${colors.disabled}";
-
-      font = [
-        "Noto Sans Mono:style=Regular"
-        "Noto Sans Mono CJK JP:style=Regular"
-      ];
-
-      modules.left = "xworkspaces xwindow";
-      modules.right = "battery pulseaudio xkeyboard network cpu tray date";
-
-      cursor.click = "pointer";
-      cursor.scroll = "ns-resize";
-
-      enable-ipc = true;
-    };
-
-    "module/systray" = {
-      type = "internal/tray";
-    };
-
-    "module/network" = {
-      type = "internal/network";
-
-      interface = "wlp4s0";
-      interface-type = "wireless";
-      label.connected.text = "%essid% %local_ip%";
-    };
-
-    "module/xworkspaces" = {
-      type = "internal/xworkspaces";
-
-      label.active.text = "%name%";
-      label.active.background = "\${colors.background-alt}";
-      label.active.underline = "\${colors.primary}";
-      label.active.padding = 1;
-
-      label.occupied.text = "%name%";
-      label.occupied.padding = 1;
-
-      label.urgent.text = "%name%";
-      label.urgent.background = "\${colors.alert}";
-      label.urgent.padding = 1;
-
-      label.empty.text = "%name%";
-      label.empty.foreground = "\${colors.disabled}";
-      label.empty.padding = 1;
-    };
-
-    "module/xwindow" = {
-      type = "internal/xwindow";
-      label = "%title:0:60:...%";
-    };
-
-    "module/pulseaudio" = {
-      type = "internal/pulseaudio";
-
-      format.volume.prefix.text = "VOL ";
-      format.volume.prefix.foreground = "\${colors.primary}";
-      format.volume.text = "<label-volume>";
-
-      label.volume = "%percentage%%";
-
-      label.muted.text = "muted";
-      label.muted.foreground = "\${colors.disabled}";
-    };
-
-    "module/memory" = {
-      type = "internal/memory";
-      interval = 2;
-      format.prefix.text = "RAM ";
-      format.prefix.foreground = "\${colors.primary}";
-      label = "%percentage_used:2%%";
-    };
-
-    "module/cpu" = {
-      type = "internal/cpu";
-      interval = 2;
-      format.prefix.text = "CPU ";
-      format.prefix.foreground = "\${colors.primary}";
-      label = "%percentage:2%%";
-    };
-
-    "module/date" = {
-      type = "internal/date";
-      interval = 1;
-
-      date.text = "%H:%M";
-      date.alt = "%Y-%m-%d %H:%M:%S";
-
-      label.text = "%date%";
-      label.foreground = "\${colors.primary}";
-    };
-
-    "module/tray" = {
-      type = "internal/tray";
-
-      format-margin = "8px";
-      tray-spacing = "8px";
-    };
-
-    "module/xkeyboard" = {
-      type = "internal/xkeyboard";
-      blacklist = [ "num lock" ];
-
-      label.layout.text = "%layout%";
-      label.layout.foreground = "\${colors.primary}";
-
-      label.indicator.padding = 2;
-      label.indicator.margin = 1;
-      label.indicator.foreground = "\${colors.background}";
-      label.indicator.background = "\${colors.secondary}";
-    };
-
-    "module/battery" = {
-      type = "internal/battery";
-
-      full.at = 99;
-
-      low.at = 20;
-
-      battery = "BAT1";
-      adapter = "ACAD";
-
-      label.charging = "Charging %percentage%%";
-      label.discharging = "Discharging %percentage%% %time% %consumption%";
-      label.full = "Fully charged";
-      label.low = "BATTERY LOW";
-    };
-  };
 
   services.syncthing = { enable = true; };
   services.lorri = {
@@ -228,35 +66,14 @@
     ProtectSystem = pkgs.lib.mkForce "full";
     ProtectHome = pkgs.lib.mkForce false;
   };
-
-  programs.rofi.enable = true;
-  programs.rofi.theme = "Arc-Dark";
-  programs.rofi.font = "Noto Sans Mono 12";
-  programs.rofi.terminal = "alacritty";
-
-  xsession.enable = true;
-  xsession.scriptPath = ".hm-xsession";
-  xsession.windowManager.bspwm = {
-    enable = true;
-    monitors = { eDP-1 = [ "1" "2" "3" "4" "5" "6" "7" "8" ]; };
-    settings = {
-      window_gap = 5;
-    };
-    rules = {
-      # Ugh, stupid class name
-      "MATLAB R2024a - academic use" = {
-        state = "floating";
-      };
-    };
-  };
-
+  
   programs.ssh = {
     enable = true;
     matchBlocks.arnes = {
       host = "*.arnes.si";
       user = "nb91605";
       extraOptions = {
-        IdentifyFile = "/home/nikola/.ssh/id_sling";
+        IdentityFile = "/home/nikola/.ssh/id_sling";
         GSSAPIAuthentication = "yes";
       };
     };
@@ -271,6 +88,21 @@
     userName = "nikolabr";
   };
 
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    };
+  };
+
+  gtk = {
+    enable = true;
+    gtk3 = {
+      extraConfig = {
+        gtk-application-prefer-dark-theme = "1";
+      };
+    };
+  };
 
   accounts.email.accounts = {
     "nb91605" = {
@@ -455,7 +287,6 @@
     defaultEditor = true;
     client.enable = true;
 
-    # package = inputs.self.packages.x86_64-linux.custom-emacs;
     package = pkgs.emacs-pgtk;
   };
 
@@ -474,7 +305,6 @@
       tuttieee.emacs-mcx
     ];
   };
-
 
   programs.tmux = {
     enable = true;
