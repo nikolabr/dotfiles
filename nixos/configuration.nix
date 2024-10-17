@@ -159,6 +159,10 @@
 
   documentation.dev.enable = true;
 
+  security.krb5 = {
+    enable = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nikola = {
     isNormalUser = true;
@@ -196,7 +200,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 50000 ];

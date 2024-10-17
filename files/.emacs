@@ -153,4 +153,11 @@
 (use-package haskell-mode)
 (use-package lsp-haskell)
 
+(use-package org-roam
+  :config
+  (setq org-roam-database-connector 'sqlite-builtin)
+  (make-directory "~/org-roam")
+  (setq org-roam-directory (file-truename "~/org-roam"))
+  (org-roam-db-autosync-mode))
+
 (use-package magit)

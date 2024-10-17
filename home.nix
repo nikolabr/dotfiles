@@ -47,7 +47,7 @@
         blue = "0x81a2be";
         magenta = "0xb77ee0";
         cyan = "0x54ced6";
-        white = "0x282a2e";
+        White = "0x282a2e";
       };
     };
     font.size = 8.0;
@@ -250,6 +250,18 @@
       # Ugh, stupid class name
       "MATLAB R2024a - academic use" = {
         state = "floating";
+      };
+    };
+  };
+
+  programs.ssh = {
+    enable = true;
+    matchBlocks.arnes = {
+      host = "*.arnes.si";
+      user = "nb91605";
+      extraOptions = {
+        IdentifyFile = "/home/nikola/.ssh/id_sling";
+        GSSAPIAuthentication = "yes";
       };
     };
   };
@@ -466,6 +478,11 @@
       tuttieee.emacs-mcx
     ];
   };
+
+
+  programs.tmux = {
+    enable = true;
+  };
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -535,6 +552,7 @@
     texlive.combined.scheme-full
 
     powershell
+    arandr
     
     # Octave
     (octaveFull.withPackages (octavePackages:
@@ -542,6 +560,7 @@
     ))
     
     jetbrains.idea-ultimate
+    azure-cli
 
     # Rust
     (rust-bin.stable.latest.default.override {
@@ -587,6 +606,7 @@
 
     viber
     signal-desktop
+    skypeforlinux
     wine
 
     usbutils
@@ -606,6 +626,8 @@
         dplyr
         ggplot2
         treemapify
+        DiagrammeR
+        DiagrammeRsvg
       ];
     })
     
