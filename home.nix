@@ -1,4 +1,9 @@
-{ config, pkgs, inputs,  ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -18,10 +23,8 @@
   programs.bash.enable = true;
   programs.bash.bashrcExtra = "eval \"\$(direnv hook bash)\"";
 
-  home.sessionPath = [
-    "$HOME/.npm-global/bin"
-  ];
-  
+  home.sessionPath = [ "$HOME/.npm-global/bin" ];
+
   programs.alacritty.enable = false;
   programs.alacritty.settings = {
     colors = {
@@ -56,7 +59,9 @@
     };
   };
 
-  services.syncthing = { enable = true; };
+  services.syncthing = {
+    enable = true;
+  };
   services.lorri = {
     enable = true;
   };
@@ -66,7 +71,7 @@
     ProtectSystem = pkgs.lib.mkForce "full";
     ProtectHome = pkgs.lib.mkForce false;
   };
-  
+
   programs.ssh = {
     enable = true;
     matchBlocks.arnes = {
@@ -115,16 +120,6 @@
       thunderbird = {
         enable = true;
       };
-      offlineimap = {
-        enable = true;
-        extraConfig.remote = {
-          auth_mechanisms = "XOAUTH2";
-          # Thunderbird ID
-          oauth2_client_id = "9e5f94bc-e8a4-4e73-b8be-63364c29d753";
-          
-          oauth2_access_token = "";
-        };
-      };
       imap = {
         host = "outlook.office365.com";
       };
@@ -133,19 +128,12 @@
 
   programs.thunderbird = {
     enable = true;
+
     profiles = {
       "default" = {
         isDefault = true;
       };
     };
-  };
-
-  programs.mu = {
-    enable = true;
-  };
-
-  programs.offlineimap = {
-    enable = true;
   };
 
   services.sxhkd = {
@@ -171,8 +159,7 @@
       "Print" = "maim ~/Pictures/$(date +%s).png";
       "shift + Print" = "maim -s ~/Pictures/$(date +%s).png";
       "control + Print" = "maim | xclip -selection clipboard -t image/png";
-      "shift + control + Print" =
-        " maim -s | xclip -selection clipboard -t image/png";
+      "shift + control + Print" = " maim -s | xclip -selection clipboard -t image/png";
 
       # Brightness
       "XF86MonBrightnessDown" = "brightnessctl s 10%-";
@@ -196,20 +183,16 @@
       "super + g" = "bspc node -s biggest.window";
 
       # set the window state
-      "super + {t,shift + t,s,f}" =
-        "bspc node -t {tiled,pseudo_tiled,floating,fullscreen}";
+      "super + {t,shift + t,s,f}" = "bspc node -t {tiled,pseudo_tiled,floating,fullscreen}";
 
       # set the node flags
-      "super + ctrl + {m,x,y,z}" =
-        "bspc node -g {marked,locked,sticky,private}";
+      "super + ctrl + {m,x,y,z}" = "bspc node -g {marked,locked,sticky,private}";
 
       # focus the node in the given direction
-      "super + {_,shift + }{h,j,k,l}" =
-        "bspc node -{f,s} {west,south,north,east}";
+      "super + {_,shift + }{h,j,k,l}" = "bspc node -{f,s} {west,south,north,east}";
 
       # focus the node for the given path jump
-      "super + {p,b,comma,period}" =
-        "bspc node -f @{parent,brother,first,second}";
+      "super + {p,b,comma,period}" = "bspc node -f @{parent,brother,first,second}";
 
       # focus the next/previous window in the current desktop
       "super + {_,shift + }c" = "bspc node -f {next,prev}.local.!hidden.window";
@@ -221,8 +204,7 @@
       "super + {grave,Tab}" = "bspc {node,desktop} -f last";
 
       # focus the older or newer node in the focus history
-      "super + {o,i}" =
-        "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";
+      "super + {o,i}" = "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";
 
       # focus or send to the given desktop
       "super + {_,shift + }{1-9,0}" = "bspc {desktop -f,node -d} '^{1-9,10}'";
@@ -237,16 +219,13 @@
       "super + ctrl + space" = "bspc node -p cancel";
 
       # cancel the preselection for the focused desktop
-      "super + ctrl + shift + space" =
-        "bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel";
+      "super + ctrl + shift + space" = "bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel";
 
       # expand a window by moving one of its side outward
-      "super + alt + {h,j,k,l}" =
-        "bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}";
+      "super + alt + {h,j,k,l}" = "bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}";
 
       # contract a window by moving one of its side inward
-      "super + alt + shift + {h,j,k,l}" =
-        "bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}";
+      "super + alt + shift + {h,j,k,l}" = "bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}";
 
       # move a floating window
       "super + {Left,Down,Up,Right}" = "bspc node -v {-20 0,0 20,0 -20,20 0}";
@@ -256,31 +235,33 @@
 
   fonts.fontconfig.enable = true;
 
-  xdg.mimeApps = let
-    firefoxAssociations = {
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/chrome" = [ "firefox.desktop" ];
-      "application/x-extension-htm" = [ "firefox.desktop" ];
-      "application/x-extension-html" = [ "firefox.desktop" ];
-      "application/x-extension-shtml" = [ "firefox.desktop" ];
+  xdg.mimeApps =
+    let
+      firefoxAssociations = {
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+        "application/x-extension-htm" = [ "firefox.desktop" ];
+        "application/x-extension-html" = [ "firefox.desktop" ];
+        "application/x-extension-shtml" = [ "firefox.desktop" ];
 
-      "application/xhtml+xml" = [ "firefox.desktop" ];
-      "application/x-extension-xhtml" = [ "firefox.desktop" ];
-      "application/x-extension-xht" = [ "firefox.desktop" ];
+        "application/xhtml+xml" = [ "firefox.desktop" ];
+        "application/x-extension-xhtml" = [ "firefox.desktop" ];
+        "application/x-extension-xht" = [ "firefox.desktop" ];
+      };
+    in
+    {
+      enable = true;
+      associations.added = firefoxAssociations;
+
+      # Merge the firefox associations and custom ones
+      defaultApplications = pkgs.lib.attrsets.mergeAttrsList [
+        {
+          "application/pdf" = [ "emacsclient.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+        }
+        firefoxAssociations
+      ];
     };
-  in {
-    enable = true;
-    associations.added = firefoxAssociations;
-
-    # Merge the firefox associations and custom ones
-    defaultApplications = pkgs.lib.attrsets.mergeAttrsList [
-      {
-        "application/pdf" = [ "emacsclient.desktop" ];
-        "text/html" = [ "firefox.desktop" ];
-      }
-      firefoxAssociations
-    ];
-  };
 
   services.emacs = {
     enable = true;
@@ -298,10 +279,10 @@
     extensions = with pkgs.vscode-extensions; [
       ms-vscode.cpptools
       ms-vscode-remote.remote-containers
-      
+
       twxs.cmake
       ms-vscode.cmake-tools
-      
+
       tuttieee.emacs-mcx
     ];
   };
@@ -309,7 +290,7 @@
   programs.tmux = {
     enable = true;
   };
-  
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -352,7 +333,10 @@
 
     # Dicts
     # Slovenian
-    (aspellWithDicts (d: [ d.en d.sl ]))
+    (aspellWithDicts (d: [
+      d.en
+      d.sl
+    ]))
 
     # Xorg
     xclip
@@ -372,25 +356,30 @@
     bear
     devcontainer
 
-	  iosevka
+    iosevka
 
     # Tex
     texlive.combined.scheme-full
 
     powershell
     arandr
-    
+
     # Octave
-    (octaveFull.withPackages (octavePackages:
-      [ octavePackages.audio octavePackages.statistics octavePackages.signal ]
-    ))
-    
+    (octaveFull.withPackages (octavePackages: [
+      octavePackages.audio
+      octavePackages.statistics
+      octavePackages.signal
+    ]))
+
     jetbrains.idea-ultimate
     azure-cli
 
     # Rust
     (rust-bin.stable.latest.default.override {
-      extensions = [ "rust-src" "rust-analyzer" ];
+      extensions = [
+        "rust-src"
+        "rust-analyzer"
+      ];
       targets = [
         "thumbv6m-none-eabi"
         "thumbv7m-none-eabi"
@@ -427,8 +416,8 @@
     # Embedded
     gcc-arm-embedded
     qemu_full
-    
-    jflap
+
+    xournalpp
 
     viber
     signal-desktop
@@ -439,14 +428,12 @@
 
     simplescreenrecorder
 
-    matlab
-
     networkmanagerapplet
     remmina
     openconnect
     networkmanager-openconnect
 
-    (rstudioWrapper.override{
+    (rstudioWrapper.override {
       packages = with rPackages; [
         readxl
         dplyr
@@ -456,7 +443,7 @@
         DiagrammeRsvg
       ];
     })
-    
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of

@@ -149,15 +149,19 @@
   (haskell-mode . lsp)
   :bind-keymap ("C-c l" . lsp-command-map))
 
-(use-package nix-mode)
 (use-package haskell-mode)
 (use-package lsp-haskell)
 
 (use-package org-roam
   :config
   (setq org-roam-database-connector 'sqlite-builtin)
-  (make-directory "~/org-roam")
   (setq org-roam-directory (file-truename "~/org-roam"))
   (org-roam-db-autosync-mode))
+
+(use-package nix-mode
+  :hook (nix-mode . lsp-deferred)
+  :config
+  (setq lsp-nix-nil-formatter ["nixfmt"])
+  (setq lsp-nix-nil-max-mem 3000))
 
 (use-package magit)

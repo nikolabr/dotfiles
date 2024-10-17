@@ -19,17 +19,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-matlab = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "gitlab:doronbehar/nix-matlab";
-    };
-
     nil = {
       url = "github:oxalica/nil";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, emacs-overlay, rust-overlay, nil, nix-matlab, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, emacs-overlay, rust-overlay, nil, ... }@inputs:
     let
       pkgs = import nixpkgs {
         system = "x86_64-linux";
@@ -38,7 +33,6 @@
             emacs-overlay.overlays.default
             rust-overlay.overlays.default
             nil.overlays.default
-            nix-matlab.overlay
           ];
         config.allowUnfree = true;
         config.permittedInsecurePackages = [
@@ -47,8 +41,6 @@
       };
       
     in {
-      # packages.x86_64-linux.custom-emacs = (import ./emacs.nix { inherit pkgs; });
-
       nixosConfigurations = {
         thinkbook = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
