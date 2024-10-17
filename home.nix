@@ -22,7 +22,7 @@
     "$HOME/.npm-global/bin"
   ];
   
-  programs.alacritty.enable = true;
+  programs.alacritty.enable = false;
   programs.alacritty.settings = {
     colors = {
       primary = {
@@ -56,7 +56,7 @@
     };
   };
   
-  services.polybar.enable = true;
+  services.polybar.enable = false;
   services.polybar.package = pkgs.polybar.override { pulseSupport = true; };
   services.polybar.script = "polybar top &";
   services.polybar.settings = {
@@ -218,10 +218,6 @@
     };
   };
 
-  services.picom = {
-    enable = true;
-  };
-
   services.syncthing = { enable = true; };
   services.lorri = {
     enable = true;
@@ -321,7 +317,7 @@
   };
 
   services.sxhkd = {
-    enable = true;
+    enable = false;
     keybindings = {
       # General
       "super + Return" = "alacritty";
@@ -672,7 +668,6 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     # EDITOR = "emacs";
-    GTK_THEME = "Adwaita:dark";
     BROWSER = "firefox-esr";
   };
 

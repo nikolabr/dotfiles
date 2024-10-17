@@ -21,35 +21,6 @@
   services.fwupd.enable = true;
 
   hardware.opengl.enable = true;
-
-  services.tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
-
-        CPU_BOOST_ON_BAT = 0;
-
-        SOUND_POWER_SAVE_ON_AT = 1;
-
-        STOP_CHARGE_THRESH_BAT0 = 0;
-
-        RADEON_DRM_PERF_LEVEL_ON_BAT = "low";
-        RADEON_DPM_STATE_ON_BAT = "battery";
-
-        PLATFORM_PROFILE_ON_BAT = "low-power";
-
-        NMI_WATCHDOG = 0;
-      };
-  };
   
   # system.autoUpgrade.enable = true;
   # system.autoUpgrade.allowReboot = false;
@@ -74,10 +45,6 @@
     '';
   };
 
-  programs.slock.enable = true;
-  programs.xss-lock.enable = true;
-  programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
-
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   hardware.bluetooth.settings = {
@@ -86,11 +53,6 @@
     };
   };
   services.blueman.enable = true;
-
-  services.logind = {
-    extraConfig = "HandlePowerKey=suspend";
-    lidSwitch = "suspend";
-  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -107,7 +69,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "sl_SI.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   i18n.supportedLocales = [
     "sl_SI.UTF-8/UTF-8"
     "en_US.UTF-8/UTF-8"
@@ -118,13 +80,10 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.desktopManager.session = [{
-     name = "home-manager";
-     start = ''
-       ${pkgs.runtimeShell} $HOME/.hm-xsession &
-       waitPID=$!
-     '';
-   }];
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+
+  services.power-profiles-daemon.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "si,us";
@@ -146,9 +105,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  xdg.portal.config.common.default = "*";
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # xdg.portal.config.common.default = "*";
 
   virtualisation.docker.enable = true;
 
@@ -162,6 +121,8 @@
   security.krb5 = {
     enable = true;
   };
+
+  security.pam.krb5.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nikola = {
