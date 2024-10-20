@@ -83,6 +83,12 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # services.xserver.windowManager.xmonad = {
+  #   enable = false;
+  #   enableContribAndExtras = true;
+  #   config = builtins.readFile ../xmonad/XMonad.hs;
+  # };
+
   services.power-profiles-daemon.enable = true;
 
   # Configure keymap in X11
@@ -148,10 +154,11 @@
     screen
     man-pages
     man-pages-posix
-
+    
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
     gnome.gnome-settings-daemon
+    gnome.gnome-power-manager
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
