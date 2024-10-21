@@ -88,8 +88,6 @@
       extraOptions = {
         IdentityFile = "/home/nikola/.ssh/id_sling";
         GSSAPIAuthentication = "yes";
-        RequestTTY = "yes";
-        RemoteCommand = "screen -R";
       };
     };
   };
@@ -180,7 +178,11 @@
     defaultEditor = true;
     client.enable = true;
 
-    package = pkgs.emacs-pgtk;
+    # package = pkgs.emacs-pgtk;
+    package = with pkgs; (
+      (emacsPackagesFor emacs-pgtk).emacsWithPackages (
+        epkgs: [ epkgs.lsp-bridge ]
+      ));
   };
 
   home.file.".emacs".source = ./files/.emacs;
@@ -262,8 +264,6 @@
     hanazono
 
     # Dev
-    stm32cubemx
-    stlink-gui
     bear
     devcontainer
     
@@ -273,7 +273,6 @@
     texlive.combined.scheme-full
 
     powershell
-    arandr
 
     # Octave
     (octaveFull.withPackages (octavePackages: [
@@ -308,7 +307,7 @@
 
     # Racket
     racket
-
+    
     # Clojure
     clojure
     clojure-lsp
@@ -340,7 +339,7 @@
     remmina
     openconnect
     networkmanager-openconnect
-
+    
     (rstudioWrapper.override {
       packages = with rPackages; [
         readxl

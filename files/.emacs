@@ -111,11 +111,6 @@
 (use-package embark-consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package corfu
-  :custom
-  (corfu-auto t)
-  :init (global-corfu-mode))
-
 (use-package pdf-tools
   :config
   (pdf-tools-install))
@@ -136,21 +131,9 @@
   :config
   (direnv-mode))
 
-(use-package lsp-mode
-  :custom
-  (gc-cons-threshold (* 100 1024 1024))
-  (read-process-output-max (* 1024 1024))
-  (lsp-idle-delay 0.1)
-  :config
-  (remove-hook 'flymake-diagnostic-functions 'flymake-cc)
+(use-package haskell-mode
   :hook
-  (c-mode . lsp)
-  (c++-mode . lsp)
-  (haskell-mode . lsp)
-  :bind-keymap ("C-c l" . lsp-command-map))
-
-(use-package haskell-mode)
-(use-package lsp-haskell)
+  (haskell-mode . interactive-haskell-mode))
 
 (use-package org-roam
   :config
@@ -158,10 +141,25 @@
   (setq org-roam-directory (file-truename "~/org-roam"))
   (org-roam-db-autosync-mode))
 
-(use-package nix-mode
-  :hook (nix-mode . lsp-deferred)
+(use-package nix-mode)
+
+(use-package yasnippet
   :config
-  (setq lsp-nix-nil-formatter ["nixfmt"])
-  (setq lsp-nix-nil-max-mem 3000))
+  (yas-global-mode))
+
+(use-package go-mode)
+
+(require 'lsp-bridge)
+(global-lsp-bridge-mode)
+(setq lsp-bridge-nix-lsp-server "nil")
+(setq lsp-bridge-enable-with-tramp nil)
+(define-key lsp-bridge-mode-map (kbd "C-c l e") 'lsp-bridge-diagnostic-jump-next)
+(define-key lsp-bridge-mode-map (kbd "C-c l d") 'lsp-bridge-find-def)
+(define-key lsp-bridge-mode-map (kbd "C-c l r") 'lsp-bridge-rename)
+(define-key lsp-bridge-mode-map (kbd "C-c l a") 'lsp-bridge-code-action)
+(define-key lsp-bridge-mode-map (kbd "C-c l f") 'lsp-bridge-find-references)
+(define-key lsp-bridge-mode-map (kbd "C-c l h") 'lsp-bridge-popup-documentation)
+(define-key lsp-bridge-mode-map (kbd "C-c l e") 'lsp-bridge-diagnostic-jump-next)
+(define-key lsp-bridge-mode-map (kbd "C-c l o") 'lsp-bridge-workspace-list-symbols)
 
 (use-package magit)
