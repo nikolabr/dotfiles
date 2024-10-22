@@ -223,7 +223,7 @@
     sxiv
     ghidra-bin
     gimp
-    komikku
+    inkscape
 
     # Terminal utils
     maim

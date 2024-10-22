@@ -149,17 +149,20 @@
 
 (use-package go-mode)
 
-(require 'lsp-bridge)
-(global-lsp-bridge-mode)
-(setq lsp-bridge-nix-lsp-server "nil")
-(setq lsp-bridge-enable-with-tramp nil)
-(define-key lsp-bridge-mode-map (kbd "C-c l e") 'lsp-bridge-diagnostic-jump-next)
-(define-key lsp-bridge-mode-map (kbd "C-c l d") 'lsp-bridge-find-def)
-(define-key lsp-bridge-mode-map (kbd "C-c l r") 'lsp-bridge-rename)
-(define-key lsp-bridge-mode-map (kbd "C-c l a") 'lsp-bridge-code-action)
-(define-key lsp-bridge-mode-map (kbd "C-c l f") 'lsp-bridge-find-references)
-(define-key lsp-bridge-mode-map (kbd "C-c l h") 'lsp-bridge-popup-documentation)
-(define-key lsp-bridge-mode-map (kbd "C-c l e") 'lsp-bridge-diagnostic-jump-next)
-(define-key lsp-bridge-mode-map (kbd "C-c l o") 'lsp-bridge-workspace-list-symbols)
+(use-package lsp-bridge
+  ;; Install through nix
+  :straight f
+  :config
+  (global-lsp-bridge-mode)
+  (setq lsp-bridge-nix-lsp-server "nil")
+  (setq lsp-bridge-enable-with-tramp nil)
+  :bind (:map lsp-bridge-mode-map
+	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l d" . lsp-bridge-find-def)
+	      ("C-c l r" . lsp-bridge-rename)
+	      ("C-c l a" . lsp-bridge-code-action)
+	      ("C-c l f" . lsp-bridge-find-references)
+	      ("C-c l h" . lsp-bridge-popup-documentation)
+	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
 (use-package magit)
