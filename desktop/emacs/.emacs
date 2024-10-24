@@ -109,30 +109,38 @@
 (use-package embark-consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package corfu
-  :custom
-  (corfu-auto t)
-  (corfu-quit-no-match 'separator)
-  :init (global-corfu-mode))
+;; (use-package corfu
+;;   :custom
+;;   (corfu-auto t)
+;;   (corfu-quit-no-match 'separator)
+;;   :init (global-corfu-mode))
 
 (use-package haskell-mode)
 
-(use-package lsp-mode
-  :custom
-  (gc-cons-threshold (* 100 1024 1024))
-  (read-process-output-max (* 1024 1024))
-  (lsp-idle-delay 0.1)
-  (lsp-completion-provider :none)
-  :config
-  (remove-hook 'flymake-diagnostic-functions 'flymake-cc)
-  :hook
-  (c-mode . lsp)
-  (c++-mode . lsp)
-  (python-mode . lsp)
-  (haskell-mode . lsp)
-  :bind-keymap ("C-c l" . lsp-command-map))
+(use-package yasnippet
+  :init
+  (yas-global-mode))
 
-(use-package lsp-haskell)
+(use-package lsp-bridge
+  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+            :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+            :build (:not compile))
+  :init
+  (setq lsp-bridge-enable-with-tramp nil)
+  ;; Requires a venv in ~/.emacs.d/lsp-bridge-env
+  (setq lsp-bridge-python-command (concat user-emacs-directory "lsp-bridge-env/bin/python"))
+  (global-lsp-bridge-mode)
+  :bind (:map lsp-bridge-mode-map
+	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l d" . lsp-bridge-find-def)
+	      ("C-c l r" . lsp-bridge-rename)
+	      ("C-c l a" . lsp-bridge-code-action)
+	      ("C-c l f" . lsp-bridge-find-references)
+	      ("C-c l h" . lsp-bridge-popup-documentation)
+	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
 (use-package cmake-mode)
 (use-package magit)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
