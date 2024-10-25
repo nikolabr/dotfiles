@@ -152,10 +152,10 @@
 (use-package lsp-bridge
   ;; Install through nix
   :straight f
-  :config
+  :init
   (global-lsp-bridge-mode)
   (setq lsp-bridge-nix-lsp-server "nil")
-  (setq lsp-bridge-enable-with-tramp nil)
+  (setq lsp-bridge-enable-with-tramp t)
   :bind (:map lsp-bridge-mode-map
 	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
 	      ("C-c l d" . lsp-bridge-find-def)
@@ -166,3 +166,4 @@
 	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
 (use-package magit)
+(use-package htmlize)

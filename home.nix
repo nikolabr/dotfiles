@@ -224,6 +224,7 @@
     ghidra-bin
     gimp
     inkscape
+    filezilla
 
     # Terminal utils
     maim
@@ -326,6 +327,7 @@
 
     xournalpp
 
+    protonmail-desktop
     viber
     signal-desktop
     skypeforlinux
