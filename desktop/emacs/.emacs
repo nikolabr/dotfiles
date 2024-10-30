@@ -131,7 +131,8 @@
   (setq lsp-bridge-python-command (concat user-emacs-directory "lsp-bridge-env/bin/python"))
   (global-lsp-bridge-mode)
   :bind (:map lsp-bridge-mode-map
-	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l n" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l p" . lsp-bridge-diagnostic-jump-prev)
 	      ("C-c l d" . lsp-bridge-find-def)
 	      ("C-c l r" . lsp-bridge-rename)
 	      ("C-c l a" . lsp-bridge-code-action)

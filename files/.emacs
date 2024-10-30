@@ -142,6 +142,7 @@
   (org-roam-db-autosync-mode))
 
 (use-package nix-mode)
+(use-package cmake-mode)
 
 (use-package yasnippet
   :config
@@ -165,5 +166,17 @@
 	      ("C-c l h" . lsp-bridge-popup-documentation)
 	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
+(use-package flymake
+  :hook
+  (lsp-bridge-mode . flymake-mode))
+
+(use-package flymake-bridge
+  :straight '(flymake-bridge :type git :host github :repo "liuyinz/flymake-bridge"
+			     :files (:defaults "*.el"))
+  :hook
+  (lsp-bridge-mode . flymake-bridge-setup))
+
 (use-package magit)
 (use-package htmlize)
+
+(use-package mozc)

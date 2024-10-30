@@ -95,6 +95,15 @@
   services.xserver.xkb.layout = "si,us";
   services.xserver.xkb.options = "grp:ctrls_toggle";
 
+  i18n.inputMethod = {
+    # enable = true;
+    ibus = {
+      engines = with pkgs.ibus-engines; [
+        mozc
+      ];
+    };
+  };
+
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
@@ -115,7 +124,8 @@
   # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # xdg.portal.config.common.default = "*";
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker.enable = false;
+  virtualisation.waydroid.enable = false;
 
   services.dictd = {
     enable = true;
@@ -159,6 +169,8 @@
     gnomeExtensions.blur-my-shell
     gnome.gnome-settings-daemon
     gnome.gnome-power-manager
+    
+    ibus-engines.mozc
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -90,6 +90,9 @@
         GSSAPIAuthentication = "yes";
       };
     };
+    extraOptionOverrides = {
+      IdentityFile = "/home/nikola/.ssh/id_ed25519_mg";
+    };
   };
 
   programs.git = {
@@ -257,6 +260,8 @@
     xorg.xinput
     xorg.xev
 
+    wl-clipboard
+
     # Fonts
     source-code-pro
     font-awesome
@@ -324,8 +329,10 @@
     # Embedded
     gcc-arm-embedded
     qemu_full
-
+    
     xournalpp
+
+    rclone
 
     protonmail-desktop
     viber
