@@ -142,6 +142,7 @@
   (org-roam-db-autosync-mode))
 
 (use-package nix-mode)
+(use-package cmake-mode)
 
 (use-package yasnippet
   :config
@@ -152,10 +153,10 @@
 (use-package lsp-bridge
   ;; Install through nix
   :straight f
-  :config
+  :init
   (global-lsp-bridge-mode)
   (setq lsp-bridge-nix-lsp-server "nil")
-  (setq lsp-bridge-enable-with-tramp nil)
+  (setq lsp-bridge-enable-with-tramp t)
   :bind (:map lsp-bridge-mode-map
 	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
 	      ("C-c l d" . lsp-bridge-find-def)
@@ -165,4 +166,17 @@
 	      ("C-c l h" . lsp-bridge-popup-documentation)
 	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
+(use-package flymake
+  :hook
+  (lsp-bridge-mode . flymake-mode))
+
+(use-package flymake-bridge
+  :straight '(flymake-bridge :type git :host github :repo "liuyinz/flymake-bridge"
+			     :files (:defaults "*.el"))
+  :hook
+  (lsp-bridge-mode . flymake-bridge-setup))
+
 (use-package magit)
+(use-package htmlize)
+
+(use-package mozc)

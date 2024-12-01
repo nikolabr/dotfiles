@@ -90,6 +90,9 @@
         GSSAPIAuthentication = "yes";
       };
     };
+    extraOptionOverrides = {
+      IdentityFile = "/home/nikola/.ssh/id_ed25519_mg";
+    };
   };
 
   programs.git = {
@@ -224,6 +227,7 @@
     ghidra-bin
     gimp
     inkscape
+    filezilla
 
     # Terminal utils
     maim
@@ -255,6 +259,8 @@
     xclip
     xorg.xinput
     xorg.xev
+
+    wl-clipboard
 
     # Fonts
     source-code-pro
@@ -323,9 +329,12 @@
     # Embedded
     gcc-arm-embedded
     qemu_full
-
+    
     xournalpp
 
+    rclone
+
+    protonmail-desktop
     viber
     signal-desktop
     skypeforlinux
