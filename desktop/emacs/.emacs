@@ -131,13 +131,24 @@
   (setq lsp-bridge-python-command (concat user-emacs-directory "lsp-bridge-env/bin/python"))
   (global-lsp-bridge-mode)
   :bind (:map lsp-bridge-mode-map
-	      ("C-c l e" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l n" . lsp-bridge-diagnostic-jump-next)
+	      ("C-c l p" . lsp-bridge-diagnostic-jump-prev)
 	      ("C-c l d" . lsp-bridge-find-def)
 	      ("C-c l r" . lsp-bridge-rename)
 	      ("C-c l a" . lsp-bridge-code-action)
 	      ("C-c l f" . lsp-bridge-find-references)
 	      ("C-c l h" . lsp-bridge-popup-documentation)
 	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
+
+(use-package flymake-bridge
+  :straight '(flymake-bridge :type git :host github :repo "liuyinz/flymake-bridge"
+			     :files (:defaults "*.el"))
+  :hook
+  (lsp-bridge-mode . flymake-bridge-setup))
+
+(use-package flymake
+  :hook
+  (lsp-bridge-mode . flymake-mode))
 
 (use-package cmake-mode)
 (use-package magit)
