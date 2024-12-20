@@ -53,13 +53,15 @@
 	doom-themes-enable-italic t)
   (load-theme 'doom-sourcerer))
 
-;; (require 'paredit)
-;; (add-hook 'lisp-mode-hook 'enable-paredit-mode)
-;; (add-hook 'scheme-mode-hook 'enable-paredit-mode)
-
 (use-package paredit
   :hook ((lisp-mode . enable-paredit-mode)
-	 (scheme-mode . enable-paredit-mode)))
+	 (scheme-mode . enable-paredit-mode)
+	 (racket-mode . enable-paredit-mode)))
+
+(use-package rainbow-delimiters
+  :hook ((lisp-mode . rainbow-delimiters-mode)
+	 (scheme-mode . rainbow-delimiters-mode)
+	 (racket-mode . rainbow-delimiters-mode)))
 
 (use-package vertico
   :straight t
@@ -166,17 +168,17 @@
 	      ("C-c l h" . lsp-bridge-popup-documentation)
 	      ("C-c l o" . lsp-bridge-workspace-list-symbols)))
 
-(use-package flymake
-  :hook
-  (lsp-bridge-mode . flymake-mode))
+(use-package flymake)
 
 (use-package flymake-bridge
   :straight '(flymake-bridge :type git :host github :repo "liuyinz/flymake-bridge"
 			     :files (:defaults "*.el"))
-  :hook
-  (lsp-bridge-mode . flymake-bridge-setup))
+  :config
+  (add-hook 'lsp-bridge-mode-hook #'flymake-bridge-setup))
 
 (use-package magit)
 (use-package htmlize)
 
 (use-package mozc)
+
+(use-package racket-mode)

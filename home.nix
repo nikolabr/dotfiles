@@ -82,6 +82,8 @@
 
   programs.ssh = {
     enable = true;
+    package = pkgs.opensshWithKerberos;
+
     matchBlocks.arnes = {
       host = "*.arnes.si";
       user = "nb91605";
@@ -191,18 +193,21 @@
   home.file.".emacs".source = ./files/.emacs;
   home.file.".config/emacs/early-init.el".source = ./files/early-init.el;
 
-  # programs.vscode = {
-  #   enable = true;
-  #   extensions = with pkgs.vscode-extensions; [
-  #     ms-vscode.cpptools
-  #     ms-vscode-remote.remote-containers
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      ms-vscode.cpptools
 
-  #     twxs.cmake
-  #     ms-vscode.cmake-tools
+      golang.go
+      ms-vscode-remote.remote-ssh
+      ms-vscode-remote.remote-containers
 
-  #     tuttieee.emacs-mcx
-  #   ];
-  # };
+      twxs.cmake
+      ms-vscode.cmake-tools
+
+      tuttieee.emacs-mcx
+    ];
+  };
 
   programs.tmux = {
     enable = true;
@@ -227,6 +232,7 @@
     ghidra-bin
     gimp
     inkscape
+    nomacs
     filezilla
 
     # Terminal utils
@@ -256,9 +262,9 @@
     ]))
 
     # Xorg
-    xclip
-    xorg.xinput
-    xorg.xev
+    # xclip
+    # xorg.xinput
+    # xorg.xev
 
     wl-clipboard
 
@@ -266,7 +272,7 @@
     source-code-pro
     font-awesome
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     hanazono
 
     # Dev
@@ -274,39 +280,14 @@
     devcontainer
     
     iosevka
+    yasashisa-gothic
 
     # Tex
     texlive.combined.scheme-full
 
-    powershell
-
-    # Octave
-    (octaveFull.withPackages (octavePackages: [
-      octavePackages.audio
-      octavePackages.statistics
-      octavePackages.signal
-    ]))
-
     jetbrains.idea-ultimate
+    jetbrains.rider
     azure-cli
-
-    # Rust
-    (rust-bin.stable.latest.default.override {
-      extensions = [
-        "rust-src"
-        "rust-analyzer"
-      ];
-      targets = [
-        "thumbv6m-none-eabi"
-        "thumbv7m-none-eabi"
-        "thumbv7em-none-eabi"
-        "thumbv7em-none-eabihf"
-      ];
-    })
-    cargo-generate
-
-    # Python
-    nodePackages_latest.pyright
 
     # Lisp
     sbcl
@@ -314,34 +295,19 @@
     # Racket
     racket
     
-    # Clojure
-    clojure
-    clojure-lsp
-    leiningen
-
-    # Elm
-    elmPackages.elm
-    elmPackages.elm-language-server
-
-    # OCaml
-    ocamlPackages.merlin
-
-    # Embedded
-    gcc-arm-embedded
-    qemu_full
-    
     xournalpp
 
     rclone
 
     protonmail-desktop
+    protonvpn-gui
+
     viber
     signal-desktop
-    skypeforlinux
-    wine
-
+    slack
+    
     usbutils
-
+    
     simplescreenrecorder
 
     networkmanagerapplet

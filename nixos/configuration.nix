@@ -20,7 +20,7 @@
 
   services.fwupd.enable = true;
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   
   # system.autoUpgrade.enable = true;
   # system.autoUpgrade.allowReboot = false;
@@ -39,7 +39,7 @@
   fileSystems."/home/nikola".device = "/dev/VolGroup-root/crypthome";
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -73,7 +73,9 @@
   i18n.supportedLocales = [
     "sl_SI.UTF-8/UTF-8"
     "en_US.UTF-8/UTF-8"
+    "ja_JP.UTF-8/UTF-8"
   ];
+
   console = {
     useXkbConfig = true; # use xkbOptions in tty.
   };
@@ -96,10 +98,13 @@
   services.xserver.xkb.options = "grp:ctrls_toggle";
 
   i18n.inputMethod = {
-    # enable = true;
+    enable = true;
+    type = "ibus";
+    
     ibus = {
       engines = with pkgs.ibus-engines; [
         mozc
+        anthy
       ];
     };
   };
@@ -111,9 +116,8 @@
   };
 
   # Enable sound.
-  sound.enable = true;
   hardware.pulseaudio = {
-    enable = true;
+    enable = false;
     package = pkgs.pulseaudioFull;
   };
 
@@ -124,13 +128,8 @@
   # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # xdg.portal.config.common.default = "*";
 
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
   virtualisation.waydroid.enable = false;
-
-  services.dictd = {
-    enable = true;
-    DBs = with pkgs.dictdDBs; [ wordnet eng2jpn jpn2eng ];
-  };
 
   documentation.dev.enable = true;
 
@@ -167,10 +166,9 @@
     
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
-    gnome.gnome-settings-daemon
-    gnome.gnome-power-manager
-    
-    ibus-engines.mozc
+    pkgs.gnome-settings-daemon
+    pkgs.gnome-power-manager
+
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
