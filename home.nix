@@ -287,8 +287,9 @@
 
     jetbrains.idea-ultimate
     jetbrains.rider
+    android-studio
     azure-cli
-
+    
     # Lisp
     sbcl
 

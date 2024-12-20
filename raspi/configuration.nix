@@ -65,6 +65,9 @@
   users.users.nikola = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSsgJrcs45JgCDP9V580bM8X+2SeijqBCRjY/JETQI4 nikola@nixos"
+    ];
   };
 
   # programs.firefox.enable = true;
@@ -72,7 +75,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    emacs
+    nano
+    neofetch
     wget
   ];
 
@@ -87,7 +91,12 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
