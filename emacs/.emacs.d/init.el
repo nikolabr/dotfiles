@@ -102,6 +102,20 @@
   (corfu-quit-no-match 'separator)
   :init (global-corfu-mode))
 
+(use-package nerd-icons
+    :ensure t)
+
+(use-package nerd-icons-completion
+  :ensure t
+  :config
+  (nerd-icons-completion-marginalia-setup)
+  (nerd-icons-completion-mode 1))
+
+(use-package nerd-icons-corfu
+  :ensure t
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 (use-package paredit
   :ensure t
   :hook
@@ -129,8 +143,27 @@
   :config
   (pdf-tools-install))
 
+(use-package auctex
+  :ensure t
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-source-correlate-start-server t)
+
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer))
+
+(use-package projectile
+  :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (setq projectile-project-search-path '("~/Dev"))
+  :config
+  (projectile-mode))
+
 (use-package realgud
   :ensure t)
-
-
-; aaa
